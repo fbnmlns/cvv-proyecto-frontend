@@ -1,0 +1,98 @@
+<nav #navbar class="navbar active">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a href="#" onClick="return false;" class="navbar-toggle collapsed"
+        (click)="isNavbarCollapsed = !isNavbarCollapsed" aria-expanded="false"></a>
+      <a href="#" onClick="return false;" class="bars" (click)="mobileMenuSidebarOpen($event,'overlay-open')"></a>
+      <a class="navbar-brand" routerLink={{homePage}}>
+        <span class="logo-name">Bloom</span>
+      </a>
+    </div>
+    <div class="collapse navbar-collapse" [ngClass]="isNavbarCollapsed ? '' : 'show'">
+      <ul class="float-start collapse-menu-icon">
+        <li>
+          <button mat-button (click)="callSidemenuCollapse()" class="sidemenu-collapse nav-notification-icons"> <i
+              class="material-icons-outlined icon-color">
+              menu
+            </i></button>
+        </li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+
+          <li class="fullscreen">
+            <button mat-button class="nav-notification-icons margin" (click)="callFullscreen()"> <i
+              class="material-icons-outlined icon-color">
+              fullscreen
+            </i></button>
+          </li>
+
+
+          <li>
+            <button mat-button [matMenuTriggerFor]="notificationMenu" (click)="startCounter()"
+                    *ngIf="getRoleUser()"
+                    class="nav-notification-icons" >
+              <span *ngIf="notificationsCounter > 0" matBadge="{{notificationsCounter}}" matBadgeColor="warn"></span>
+              <i class="material-icons-outlined icon-color margin">
+              notifications_active</i>
+            </button>
+            <mat-menu #notificationMenu="matMenu" class="nfc-menu">
+              <div class="nfc-header">
+                <h5 class="mb-0">Notifications</h5>
+              </div>
+              <div class="nfc-dropdown">
+                <ng-scrollbar style="height: 350px" visibility="hover">
+                  <div class="noti-list header-menu">
+                    <div class="menu">
+                      <div>
+                        <button mat-menu-item *ngFor="let notification of notificationsList" onClick="return false;">
+                        <span class="table-img msg-user " [ngSwitch]="notification.category">
+                          <i class="material-icons-two-tone nfc-type-icon" *ngSwitchCase="'WORK'"
+                             [ngClass]="['nfc-blue']"
+                          >work</i>
+                           <i class="material-icons-two-tone nfc-type-icon" *ngSwitchCase="'PERSONAL'" [ngClass]="['nfc-blue']"
+                           >person</i>
+                          <i class="material-icons-two-tone nfc-type-icon" *ngSwitchCase="'IMPORTANT'" [ngClass]="['nfc-red']"
+                          >warning</i>
+                        </span>
+                          <span class="menu-info">
+                            <div class="notification-first-line">
+                              <span class="menu-title">{{notification.title}} </span>
+                              <span class="metadata" >
+                                {{getDate(notification.startDate)}}
+                              </span>
+                            </div>
+
+                            <span class="menu-desc">{{notification.details}}</span>
+                          </span>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </ng-scrollbar>
+              </div>
+            </mat-menu>
+          </li>
+
+          <li class="nav-item">
+            <button mat-button [matMenuTriggerFor]="languagemenu" class="lang-dropdown nav-notification-icons"> <img
+              *ngIf="flagvalue !== undefined" src="{{flagvalue}}" height="16">
+              <img *ngIf="flagvalue === undefined" src="{{defaultFlag}}" height="16"></button>
+            <mat-menu #languagemenu="matMenu" class="lang-item-menu">
+              <div *ngFor="let item of listLang" class="lang-item">
+                <button mat-menu-item class="dropdown-item lang-item-list"
+                        (click)="setLanguage(item.text, item.lang, item.flag)"
+                        [ngClass]="{'active': langStoreValue === item.lang}">
+                  <img src="{{item.flag}}" class="flag-img" height="12"> <span class="align-middle">{{item.text}}</span>
+                </button>
+              </div>
+            </mat-menu>
+          </li>
+
+
+
+
+
+      </ul>
+    </div>
+  </div>
+</nav>

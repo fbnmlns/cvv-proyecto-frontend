@@ -1,0 +1,90 @@
+
+<section class="content">
+  <div class="content-block">
+    <div class="block-header">
+      <!-- breadcrumb -->
+      <app-breadcrumb [title]="'ADMIN_BREADCRUM.RESOURCES.TITLE' | translate"[items]="[]" [active_item]="'ADMIN_BREADCRUM.RESOURCES.ACTIVE_ITEM' | translate"></app-breadcrumb>
+    </div>
+    <!-- Loading spinner -->
+    <div class="center" *ngIf="loading">
+      <app-spinner [isLoading]="true" [message]="message | translate"></app-spinner>
+    </div>
+
+    <div class="row" *ngIf="!loading">
+      <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <div class="card">
+          <div class="materialTableHeader">
+            <div class="left">
+              <ul class="header-buttons-left ms-0">
+                <li class="tbl-title">
+                  <h2>{{'MENUITEMS.RESOURCES.SEARCHBYTITLE' | translate}}</h2>
+                </li>
+                <li class="tbl-search-box">
+                  <label for="search-input"><i class="material-icons search-icon">search</i></label>
+                  <input placeholder="{{'MENUITEMS.RESOURCES.SEARCHBYTITLE' | translate}}" id="search-input" type="text"  (keyup)="applyFilter($event.target)" class="browser-default search-field"
+                    aria-label="Search box">
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div class="body overflow-auto">
+            <div class="responsive_table">
+              <table mat-table [dataSource]="pageSlice" matSort class="mat-cell advance-table w-100">
+
+                <ng-container matColumnDef="id"  >
+                  <mat-header-cell *matHeaderCellDef  mat-sort-header>{{'MENUITEMS.RESOURCES.DELETE' | translate}} - Id </mat-header-cell>
+                  <mat-cell *matCellDef="let row">
+                    <button mat-icon-button aria-label="Example icon-button with a heart icon" (click)="deleteThisResource(row.id)">
+                      <mat-icon>delete</mat-icon>
+                    </button>
+                    <div style="margin-left: 20px" >{{row.id}}</div>
+                  </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="title" >
+                  <mat-header-cell *matHeaderCellDef mat-sort-header>{{'MENUITEMS.RESOURCES.TITLE' | translate}}</mat-header-cell>
+                  <mat-cell *matCellDef="let row">
+                    <a routerLink="../../resource/read-resource" (click)="readResource(row.id)">{{row.title}}</a>
+                  </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="date"  >
+                  <mat-header-cell *matHeaderCellDef mat-sort-header>{{'MENUITEMS.RESOURCES.DATE' | translate}}</mat-header-cell>
+                  <mat-cell *matCellDef="let row">
+                    {{row.date}}
+                  </mat-cell>
+                </ng-container>
+
+                <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+
+                <mat-row *matRowDef="let row; columns: displayedColumns;"
+                         [style.cursor]="'pointer'" >
+                </mat-row>
+
+              </table>
+              <div *ngIf="!loading" class="no-results"
+                  [style.display]="resourcesList.length === 0 ? '' : 'none'">
+                  {{'ADMIN.NO_RESULT' | translate}}
+              </div>
+              <mat-paginator #paginator
+                             [length]="resourcesList.length"
+                             [pageSize]="5"
+                             [pageSizeOptions]="[5, 10, 25]"
+                             (page) = "OnPageChange($event)">
+              </mat-paginator>
+
+              <div *ngIf="loading" class="tbl-spinner">
+                <mat-progress-spinner color="primary" [diameter]="40" mode="indeterminate">
+                </mat-progress-spinner>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+  </div>
+
+</section>

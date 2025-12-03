@@ -1,0 +1,220 @@
+<section class="content">
+  <div class="content-block">
+    <div class="block-header">
+      <!-- breadcrumb -->
+      <app-breadcrumb [title]="'DOCTOR_BREADCRUM.DASHBOARD.TITLE' | translate" [items]="[]"></app-breadcrumb>
+    </div>
+    <!-- Widgets -->
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="card">
+          <div class="body">
+            <div class="row align-items-center">
+              <div class="col-md-4">
+                <img src="assets/images/pages/welcome.png" alt="" class="w-100">
+              </div>
+              <div class="col-md-8">
+                <h4 class="font-20 weight-500 mb-2">
+                  {{ 'DASHBOARD_DOCTOR.WELLCOME_TITLE' | translate }}
+                  <div class="weight-600 font-30 col-blue pt-1">{{ name + "!" }}</div>
+                </h4>
+                <p class="font-16 max-width-600">
+                  {{ 'DASHBOARD_DOCTOR.WELLCOME_TEXT' | translate }}
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-xl-4 col-lg-6 col-md-6 col-sm-6 col-xs-12">
+        <div class="card card-statistic-2">
+          <div class="clearfix">
+            <div class="card-icon shadow-primary bg-orange">
+              <i class="material-icons align-middle">content_cut</i>
+            </div>
+            <div class="card-right">
+              <div>
+                <h5 class="float-end responsive-font">{{ 'DASHBOARD_DOCTOR.RESOURCES' | translate }}</h5>
+              </div>
+              <div class="m-r-10 m-l-10">
+                <h3 class="font-weight-bold float-end mb-0 responsive-font-2">
+                  <ng-container *ngIf="isLoadingResources; else dataLoadedResources">
+                    <div class="preloader pl-size-sm">
+                      <div class="spinner-layer pl-cyan">
+                        <div class="circle-clipper left">
+                          <div class="circle"></div>
+                        </div>
+                        <div class="circle-clipper right">
+                          <div class="circle"></div>
+                        </div>
+                      </div>
+                    </div>
+                  </ng-container>
+                  <ng-template #dataLoadedResources>
+                    {{ resourceCounts }}
+                  </ng-template>
+                </h3>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-xl-4 col-lg-6 col-md-6 col-sm-6 col-xs-12">
+        <div class="card card-statistic-2">
+          <div class="clearfix">
+            <div class="card-icon shadow-primary bg-cyan">
+              <i class="material-icons align-middle">face</i>
+            </div>
+            <div class="card-right">
+              <div>
+                <h5 class="float-end responsive-font">{{ 'DASHBOARD_DOCTOR.ACTIVE_PATIENTS' | translate }}</h5>
+              </div>
+              <div class="m-r-10 m-l-10">
+                <h3 class="font-weight-bold float-end mb-0 responsive-font-2">
+                  <ng-container *ngIf="isLoadingPatients; else dataLoaded">
+                    <div class="preloader pl-size-sm">
+                      <div class="spinner-layer pl-cyan">
+                        <div class="circle-clipper left">
+                          <div class="circle"></div>
+                        </div>
+                        <div class="circle-clipper right">
+                          <div class="circle"></div>
+                        </div>
+                      </div>
+                    </div>
+                  </ng-container>
+                  <ng-template #dataLoaded>
+                    {{ patientCounts.active_patients }}
+                  </ng-template>
+                </h3>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-xl-4 col-lg-6 col-md-6 col-sm-6 col-xs-12">
+        <div class="card card-statistic-2">
+          <div class="clearfix">
+            <div class="card-icon shadow-primary bg-green">
+              <i class="material-icons align-middle">person_add</i>
+            </div>
+            <div class="card-right">
+              <div>
+                <h5 class="float-end responsive-font">{{ 'DASHBOARD_DOCTOR.REGISTERED_PATIENTS' | translate }}</h5>
+              </div>
+              <div class="m-r-10 m-l-10">
+                <h3 class="font-weight-bold float-end mb-0 responsive-font-2">
+                  <ng-container *ngIf="isLoadingPatients; else dataLoadedTotalPatients">
+                    <div class="preloader pl-size-sm">
+                      <div class="spinner-layer pl-cyan">
+                        <div class="circle-clipper left">
+                          <div class="circle"></div>
+                        </div>
+                        <div class="circle-clipper right">
+                          <div class="circle"></div>
+                        </div>
+                      </div>
+                    </div>
+                  </ng-container>
+                  <ng-template #dataLoadedTotalPatients>
+                    {{ patientCounts.total_patients }}
+                  </ng-template>
+                </h3>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- #END# Widgets -->
+    <div class="row">
+      <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+        <div class="card" style="height: calc(100% - 24px);">
+          <div class="card-body">
+            <div class="float-start">
+              <h6 class="text-muted">{{ 'DASHBOARD_DOCTOR.PATIENTS_WITH_HIGHEST_ANXIETY_ATTACKS' | translate }}</h6>
+              <h5> <span class="text-muted font-12"></span></h5>
+            </div>
+            <div class="mb-5">
+              <ng-container *ngIf="isLoadingTopAnxietyCases; else topAnxietyCasesLoaded">
+                <div class="loader-chart">
+                  <div class="preloader pl-size-xl">
+                    <div class="spinner-layer pl-cyan">
+                      <div class="circle-clipper left">
+                        <div class="circle"></div>
+                      </div>
+                      <div class="circle-clipper right">
+                        <div class="circle"></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </ng-container>
+              <ng-template #topAnxietyCasesLoaded>
+                <ng-container *ngIf="topAnxietyCases.length > 0; else noDataTemplate">
+                  <apx-chart [series]="topAnxietyCasesOptions.series!" [chart]="topAnxietyCasesOptions.chart!"
+                    [dataLabels]="topAnxietyCasesOptions.dataLabels!" [stroke]="topAnxietyCasesOptions.stroke!"
+                    [colors]="topAnxietyCasesOptions.colors!" [title]="topAnxietyCasesOptions.title!"
+                    [subtitle]="topAnxietyCasesOptions.subtitle!" [plotOptions]="topAnxietyCasesOptions.plotOptions!"
+                    [yaxis]="topAnxietyCasesOptions.yaxis!" [xaxis]="topAnxietyCasesOptions.xaxis!"
+                    [tooltip]="topAnxietyCasesOptions.tooltip!"></apx-chart>
+                </ng-container>
+                <ng-template #noDataTemplate>
+                  
+                  <div class="loader-chart">
+                    <p> {{ 'DASHBOARD_DOCTOR.NO_DATA_FOR_ATTACKS' | translate }} </p>
+                  </div>
+                </ng-template>
+              </ng-template>
+
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12">
+        <div class="card">
+          <div class="header">
+            <h2>{{ 'DASHBOARD_DOCTOR.PATIENT_GROUPING_CHART' | translate }}</h2>
+          </div>
+          <div class="body">
+            <ng-container *ngIf="isLoadingAnxietyLevels; else anxietyLevelChartLoaded">
+              <div class="loader-chart">
+                <div class="preloader pl-size-xl">
+                  <div class="spinner-layer pl-cyan">
+                    <div class="circle-clipper left">
+                      <div class="circle"></div>
+                    </div>
+                    <div class="circle-clipper right">
+                      <div class="circle"></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </ng-container>
+            <ng-template #anxietyLevelChartLoaded>
+              <div class="table-responsive m-t-15">
+                <table class="table align-items-center">
+                  <tbody>
+                    <ng-container *ngFor="let level of levels; let i = index">
+                      <tr>
+                        <td>
+                        
+                          <i class="fa fa-circle" [ngClass]="{ 'col-green': i === 0, 'col-cyan': i === 1 }"></i>
+                          {{ level.name }} 
+                        </td>
+                        <td>{{ level.patients }} {{ 'DASHBOARD_DOCTOR.PATIENTS' | translate }}</td>
+                        <td>{{ percentages[i] }}%</td>
+                      </tr>
+                    </ng-container>
+                  </tbody>
+                </table>
+              </div>
+            </ng-template>
+          </div>
+        </div>
+      </div> -->
+    </div>
+  </div>
+</section>

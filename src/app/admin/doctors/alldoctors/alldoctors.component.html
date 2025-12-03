@@ -1,0 +1,110 @@
+<section class="content">
+  <div class="content-block">
+    <div class="block-header">
+      <!-- breadcrumb -->
+      <app-breadcrumb [title]="'ADMIN_BREADCRUM.DOCTORS.TITLE' | translate"[items]="[]" [active_item]="'ADMIN_BREADCRUM.DOCTORS.ACTIVE_ITEM' | translate"></app-breadcrumb>
+    </div>
+
+    <div class="center" *ngIf="loading">
+      <app-spinner [isLoading]="true" [message]="message | translate"></app-spinner>
+    </div>
+    <div class="row" *ngIf="!loading">
+      <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <div class="card">
+          <div class="materialTableHeader">
+            <div class="left">
+              <ul class="header-buttons-left ms-0">
+                <li class="tbl-title">
+                  <h2>{{'ADMIN_RESOURCES.SEARCH_BY_DOCTOR' | translate}}</h2>
+                </li>
+                <li class="tbl-search-box">
+                  <label for="search-input"><i class="material-icons search-icon">search</i></label>
+                  <input placeholder="{{'ADMIN_RESOURCES.SEARCH' | translate}}" id="search-input" type="text" (keyup)="applyFilter($event.target)" class="browser-default search-field"
+                    aria-label="Search box">
+                </li>
+              </ul>
+            </div>
+            <div class="right">
+              <ul class="tbl-export-btn">
+
+                <li class="tbl-header-btn">
+                  <div class="m-l-10" matTooltip="REFRESH">
+                    <button mat-mini-fab color="primary" (click)="refresh()">
+                      <mat-icon class="col-white">refresh</mat-icon>
+                    </button>
+                  </div>
+                </li>
+                <li>
+                  <div class="export-button m-l-10" matTooltip="XLSX">
+                    <img src="assets/images/icons/xlsx.png" alt="" (click)="exportExcel()" />
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div class="body overflow-auto">
+            <div class="responsive_table">
+              <table mat-table [dataSource]="pageSlice" matSort class="mat-cell advance-table w-100">
+                <!-- ID Column -->
+                <ng-container matColumnDef="id">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header>Id</mat-header-cell>
+                  <mat-cell *matCellDef="let row">{{row.id}}</mat-cell>
+                </ng-container>
+
+                <!-- LastName Column -->
+                <ng-container matColumnDef="lastName">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header>{{'ADMIN_RESOURCES.LASTNAME' | translate}}</mat-header-cell>
+                  <mat-cell *matCellDef="let row"> <span class="mobile-label">Last Name:</span>{{row.lastName}}</mat-cell>
+                </ng-container>
+
+                <!-- Name Column -->
+                <ng-container matColumnDef="name">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header>{{'ADMIN_RESOURCES.NAME' | translate}}</mat-header-cell>
+                  <mat-cell *matCellDef="let row"> <span class="mobile-label">Name:</span>{{row.name}}</mat-cell>
+                </ng-container>
+
+                <!-- UserName Column -->
+                <ng-container matColumnDef="username">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header>{{'ADMIN_RESOURCES.USERNAME' | translate}}</mat-header-cell>
+                  <mat-cell *matCellDef="let row"> <span class="mobile-label">Username:</span>{{row.userName}}</mat-cell>
+                </ng-container>
+
+                <!-- actions -->
+                <ng-container matColumnDef="actions">
+                  <mat-header-cell *matHeaderCellDef [ngClass]="'px-3'">{{'ADMIN_RESOURCES.STATE' | translate}}</mat-header-cell>
+                  <mat-cell *matCellDef="let row; let i=index;" class="px-3">
+                    <mat-slide-toggle [(ngModel)]="row.active" (change)="setState(row)" toggle="row.active" class="tbl-action-btn" color="primary">
+                    </mat-slide-toggle>
+                  </mat-cell>
+                </ng-container>
+                <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+                <!-- <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row> -->
+                <mat-row *matRowDef="let row; columns: displayedColumns;"
+                  [style.cursor]="'pointer'" >
+                </mat-row>
+              </table>
+             
+              <!-- Loading spinner -->
+              <div *ngIf="loading" class="tbl-spinner">
+                <mat-progress-spinner color="primary" [diameter]="40" mode="indeterminate">
+                </mat-progress-spinner>
+              </div>
+              <div *ngIf="!loading" class="no-results"
+              [style.display]="dataSource.data.length === 0 ? '' : 'none'">
+              {{'ADMIN.NO_RESULT' | translate}}
+             </div>
+              <mat-paginator #paginator
+                [length]="dataSource.filteredData.length"
+                [pageSize]="5"
+                [pageSizeOptions]="[5, 10, 25]"
+                (page) = "OnPageChange($event)">
+              </mat-paginator>
+             
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
